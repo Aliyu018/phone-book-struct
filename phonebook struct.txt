@@ -1,0 +1,204 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+
+using namespace std;
+
+const int maxrow = 10;
+
+
+string EmpID[maxrow] = {};
+string EmpName[maxrow] = {};
+string EmpSurname[maxrow] = {};
+string EmpPhonenumber[maxrow] = {};
+
+void openFile()
+{
+	string line;
+	ifstream myfile("D:\\person.txt");
+	if (myfile.is_open())
+	{
+		int x = 0;
+		while (getline(myfile, line))
+		{
+			int l = line.length();
+			EmpID[x] = line.substr(0, 3);
+			EmpName[x] = line.substr(4, 1 - 4);
+			x++;
+		}
+		
+		}
+		else
+		{
+			cout << "Enable to open the file!" << endl;
+		}
+	}
+
+ 
+ void AddRecord() 
+ 
+ {
+	char name[10];
+	char surename[10];
+	char empno[10];
+	char empPhonenumber[20];
+	
+	cin.ignore();
+	
+	cout << " ID. ";
+	cin.getline(empno, 10);
+	cout << " name. ";
+	cin.getline(name, 10);
+	cout << " surename. ";
+	cin.getline(surename, 10);
+	cout << " phonenumber. ";
+	cin.getline(empPhonenumber, 20);
+	
+	
+	for (int x = 0; x < maxrow; x++)
+	{
+		if (EmpID[x] == "\0")
+		{
+			EmpID[x] = empno;
+			EmpName[x] = name;
+			
+			break;
+		}
+	}
+}
+
+	void ListRecord()
+ {
+ 	system("CLS");
+ 	cout << "current Record(s)" << endl;
+	cout << "-------------------------------------------" << endl;
+	 
+	int counter = 0;
+	cout << "No. |   ID     |   NAME  |  SURENAME  |  PHONENUMBER  " << endl << "---------------------------------------------------------\n";
+	for (int x = 0; x < maxrow; x++)
+	{
+		if (EmpID[x] != "\0")
+		{
+			counter++;
+			cout << " " << counter << "    " << EmpID[x] << "    " << EmpName[x] <<  endl;
+		}
+	 } 
+	 
+	 if (counter == 0)
+	 {
+	 	cout << "No Record found!" << endl;
+	 }
+	 
+	 cout << "---------------------------------------------------------" << endl;
+ }
+ 
+ 
+ void SearchRecord(string search )
+ {
+ 	
+ 	system("CLS");
+ 	cout << "current Record(s)" << endl;
+	cout << "-------------------------------------------" << endl;
+	int counter = 0;
+	for (int x = 0; x < maxrow; x++)
+	{
+		if (EmpID[x] == search)
+		{
+			counter++;
+			cout << "  " << counter << "  " << EmpID[x] << "     " << EmpName[x] << endl;
+			break;
+		}
+	}
+	
+	if (counter == 0)
+	{
+		cout << "No Data found!" << endl;
+	}
+	
+	 cout << "---------------------------------------------------------" << endl;
+ }
+ 
+ void DeleteRecord(string search )
+ {
+ 	int counter = 0;
+ 	for (int x = 0; x < maxrow; x++)
+ 	{
+ 		if (EmpID[x] == search)
+ 		{
+ 			counter++;
+ 			
+ 			EmpName[x] = "";
+ 			EmpID[x] = "";
+ 			
+ 			cout << "Successfully Deleted!" << endl;
+ 			break;
+		 }
+	 }
+	 
+	 if (counter == 0)
+	 {
+	 	cout << "ID Number does not exist!";
+	 }
+ }
+ 
+ 
+int main()
+{
+ 	int option; 
+	string empID;
+	openFile();
+	
+	
+	do{
+	    cout<<"\n 1-To add a person to phonebook";
+	    cout<<"\n 2-To delete a person from phonebook";
+	    cout<<"\n 3-To list Record in the phonebook";
+	    cout<<"\n 4-To search for a record";
+	    cout<<"\n 5-To quit";
+	
+	cout<<"\n Please select option you want:";
+	cin >> option;
+	
+    switch (option)
+    {
+    	case 1: AddRecord();
+    	     system("CLS");
+    	     break;
+    	
+    	case 2:
+    		cin.ignore();
+    		cout << "Delete by ID >>";
+    		getline(cin, empID);
+    		DeleteRecord(empID);
+    		cin.ignore();
+    		system("CLS");
+    		    break;
+    	
+    	case 3: ListRecord();
+    	     break;
+    	     
+    	case 4:
+    		cin.ignore();
+    		cout << "search by ID >>";
+    		getline(cin, empID);
+    		SearchRecord(empID);
+    		        break;
+	}
+	
+	} while (option <5);
+ 
+
+
+
+
+
+return 0;
+}
+
+
+
+
+
+
+
+
